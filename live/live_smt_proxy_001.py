@@ -56,7 +56,7 @@ class Spider(Spider):
             fun = i['fun']
             pid = i['pid']
             tv_list.append(f'#EXTINF:-1 tvg-id="{tvg_id}" tvg-name="{tvg_name}" tvg-logo="{tvg_logo}" group-title="{group_name}",{name}')
-            tv_list.append(f'http://127.0.0.1:9978/proxy?do=py&fun={fun}&pid={pid}')
+            tv_list.append(f'http://127.0.0.1:8964/proxy?do=py&fun={fun}&pid={pid}')
         return '\n'.join(tv_list)
 
     def homeContent(self, filter):
@@ -107,7 +107,7 @@ class Spider(Spider):
             'tsum': hashlib.md5(f'tvata nginx auth module/{pid}/playlist.m3u8mc42afe745533{t}'.encode('utf-8')).hexdigest()
         }
         play_url = self.b64encode(url + '?' + urlencode(p))
-        url = f'http://127.0.0.1:9978/proxy?do=py&type=m3u8&url={play_url}'
+        url = f'http://127.0.0.1:8964/proxy?do=py&type=m3u8&url={play_url}'
         return [302, "text/plain", None, {'Location': url}]
 
 
@@ -120,7 +120,7 @@ class Spider(Spider):
             uri = home_url + match.group(1)
             a = self.b64encode(uri)
             # h = params['headers']
-            return f"http://127.0.0.1:9978/proxy?do=py&type=ts&url={a}"
+            return f"http://127.0.0.1:8964/proxy?do=py&type=ts&url={a}"
         if self.is_proxy:
             response = requests.get(url, headers=headers, proxies=self.proxy)
         else:
